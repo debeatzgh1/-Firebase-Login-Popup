@@ -13,7 +13,7 @@ A lightweight and responsive Firebase login popup for websites and blogs, especi
 
 ## 📦 Live Demo
 
-[🔗 Preview the Popup](https://your-username.github.io/firebase-login-popup)  
+[🔗 Preview the Popup ](https://beatzde4.blogspot.com/p/login-login-forgot-password-alerterror.html))  
 > *(Update with your GitHub Pages URL if deployed)*
 
 ## 🔧 Technologies Used
