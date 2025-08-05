@@ -1,7 +1,9 @@
 # 🔐 Firebase Login Popup
 
 A lightweight and responsive Firebase login popup for websites and blogs, especially useful for Blogger, landing pages, and simple HTML projects.
-
+<p align="center">
+  <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/07/screenshot_20250731-171449_12986379835500144442.png" alt="Firebase Front-End Components Preview" width="600"/>
+</p>
 ## 🚀 Features
 
 - Firebase Authentication (Email + Password)
