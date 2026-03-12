@@ -133,7 +133,7 @@
 
     // --- 2. EXTERNAL REDIRECT ---
     function openForm() {
-        window.open('https://form.svhrt.com/60f4a0aeedc1993c8c7b3989', '_blank');
+        window.open('https://debeatzgh1.github.io/Personal-Portfolio-site-/', '_blank');
     }
 
     // --- 3. THEME ENGINE ---
