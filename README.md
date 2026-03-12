@@ -1,4 +1,169 @@
-<!DOCTYPE html>
+<nav id="slim-nav" class="slim-nav-container">
+    <div class="nav-left">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Switch Theme">
+            <i id="theme-icon" class="fas fa-moon"></i>
+        </button>
+        <div class="nav-divider"></div>
+        <span class="nav-inscription" onclick="openForm()">
+            Browse modern UI layout and pages <i class="fas fa-external-link-alt ml-1 opacity-40"></i>
+        </span>
+    </div>
+
+    <div class="nav-right">
+        <button onclick="scrollToTop()" class="nav-ctrl" title="Scroll to Top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <button onclick="scrollToBottom()" class="nav-ctrl" title="Scroll to Bottom">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+</nav>
+
+<style>
+    /* 1. THEME & TRANSITION LOGIC */
+    :root {
+        --nav-bg: rgba(10, 10, 12, 0.85);
+        --nav-text: #f0f6fc;
+        --nav-accent: #00f2ff;
+        --nav-border: rgba(0, 242, 255, 0.15);
+        --page-bg: #030712;
+    }
+
+    body[data-theme="light"] {
+        --nav-bg: rgba(255, 255, 255, 0.9);
+        --nav-text: #0f172a;
+        --nav-accent: #2563eb;
+        --nav-border: rgba(0, 0, 0, 0.08);
+        --page-bg: #f8fafc;
+    }
+
+    body {
+        background-color: var(--page-bg);
+        transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* 2. STICKY-HIDE ANIMATION */
+    .slim-nav-container {
+        position: fixed;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 92%;
+        max-width: 750px;
+        height: 44px;
+        background: var(--nav-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--nav-border);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        z-index: 10000;
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                    top 0.4s ease, 
+                    background 0.3s ease;
+    }
+
+    /* The 'Hidden' State */
+    .nav-up {
+        transform: translateX(-50%) translateY(-100px);
+    }
+
+    /* 3. COMPONENT STYLING */
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 8px; }
+
+    .nav-inscription {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        color: var(--nav-text);
+        cursor: pointer;
+        transition: 0.2s;
+        text-transform: uppercase;
+    }
+
+    .nav-inscription:hover { color: var(--nav-accent); }
+
+    .nav-divider { width: 1px; height: 16px; background: var(--nav-border); margin: 0 4px; }
+
+    .theme-toggle, .nav-ctrl {
+        width: 32px; height: 32px;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; color: var(--nav-text);
+        transition: 0.2s; border: none; background: transparent;
+    }
+
+    .theme-toggle:hover, .nav-ctrl:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--nav-accent);
+    }
+
+    body[data-theme="light"] .theme-toggle:hover,
+    body[data-theme="light"] .nav-ctrl:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 480px) {
+        .nav-inscription { font-size: 9px; max-width: 180px; }
+        .slim-nav-container { width: 96%; }
+    }
+</style>
+
+<script>
+    // --- 1. STICKY HIDE LOGIC ---
+    let lastScrollY = window.scrollY;
+    const nav = document.getElementById('slim-nav');
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling Down - Hide Nav
+            nav.classList.add('nav-up');
+        } else {
+            // Scrolling Up - Show Nav
+            nav.classList.remove('nav-up');
+        }
+        lastScrollY = currentScrollY;
+    });
+
+    // --- 2. EXTERNAL REDIRECT ---
+    function openForm() {
+        window.open('https://form.svhrt.com/60f4a0aeedc1993c8c7b3989', '_blank');
+    }
+
+    // --- 3. THEME ENGINE ---
+    function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById('theme-icon');
+        const isLight = body.getAttribute('data-theme') === 'light';
+        
+        if (isLight) {
+            body.removeAttribute('data-theme');
+            icon.className = 'fas fa-moon';
+            localStorage.setItem('debeatz_theme', 'dark');
+        } else {
+            body.setAttribute('data-theme', 'light');
+            icon.className = 'fas fa-sun';
+            localStorage.setItem('debeatz_theme', 'light');
+        }
+    }
+
+    // --- 4. NAVIGATION ---
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+
+    // Init Theme on Load
+    if (localStorage.getItem('debeatz_theme') === 'light') toggleTheme();
+</script>
+
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
