@@ -1,3 +1,204 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-Dev Portfolio | Hiring Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+
+        :root {
+            --g-blue: #8ab4f8;
+            --g-green: #34A853;
+            --dark-bg: #1a1c1e;
+            --dark-card: #2d2f31;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body { font-family: 'Google Sans', sans-serif; background: #121212; margin: 0; }
+
+        /* 1. LAUNCHER WITH ENTRANCE ANIMATION */
+        #gdev-launcher {
+            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 12px;
+            background: var(--dark-card); padding: 8px 18px 8px 8px;
+            border-radius: 40px; cursor: pointer; z-index: 9999;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--glass-border);
+            animation: slide-wobble 1.2s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slide-wobble {
+            0% { transform: translateY(-50%) translateX(-100px); opacity: 0; }
+            60% { transform: translateY(-50%) translateX(10px); opacity: 1; }
+            80% { transform: translateY(-50%) translateX(-2px); }
+            100% { transform: translateY(-50%) translateX(0); opacity: 1; }
+        }
+
+        #gdev-launcher:hover { transform: translateY(-50%) scale(1.08) translateX(5px); border-color: var(--g-blue); }
+
+        .dev-avatar {
+            width: 30px; height: 30px; background: #121212; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--g-blue); color: var(--g-blue); position: relative;
+        }
+
+        .status-dot {
+            position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px;
+            background: var(--g-green); border-radius: 50%; border: 2px solid var(--dark-card);
+        }
+
+        .status-glow {
+            position: absolute; inset: 0; background: var(--g-green);
+            border-radius: 50%; animation: status-pulse 2s infinite;
+        }
+
+        @keyframes status-pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+
+        /* 2. OVERLAY MODAL */
+        #gdev-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px); display: none; z-index: 10000;
+            justify-content: center; align-items: center; padding: 20px;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+
+        #gdev-overlay.active { display: flex; opacity: 1; }
+
+        .gdev-modal {
+            width: 100%; max-width: 950px; height: 92vh;
+            background: var(--dark-bg); border-radius: 28px;
+            display: flex; flex-direction: column; overflow: hidden;
+            border: 1px solid var(--glass-border); position: relative;
+            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #gdev-overlay.active .gdev-modal { transform: scale(1); }
+
+        /* 3. IFRAME & FOOTER */
+        #gdev-frame { flex-grow: 1; width: 100%; border: none; background: #fff; }
+
+        .close-gdev {
+            position: absolute; top: 20px; right: 25px; width: 30px; height: 30px;
+            background: var(--dark-card); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #fff; z-index: 20; transition: 0.3s;
+        }
+        .close-gdev:hover { background: #ff4d4d; }
+
+        .hire-btn {
+            background: var(--g-green); color: white; padding: 8px 18px;
+            border-radius: 20px; font-size: 11px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px; display: flex;
+            align-items: center; gap: 8px; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(52, 168, 83, 0.3);
+        }
+        .hire-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52, 168, 83, 0.4); background: #2e964a; }
+
+        @media (max-width: 768px) {
+            .gdev-modal { height: 100vh; border-radius: 0; }
+            .footer-controls { flex-direction: column; gap: 10px; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="gdev-launcher" onclick="toggleGDev(true)">
+        <div class="dev-avatar">
+            <i class="fab fa-google"></i>
+            <div class="status-dot"><div class="status-glow"></div></div>
+        </div>
+        <div class="hidden sm:block">
+            <div class="flex items-center gap-2">
+                <span class="text-[9px] text-[#34A853] font-bold uppercase tracking-widest">Active</span>
+            </div>
+            <p class="text-[14px] font-medium text-gray-200">@debeatzgh</p>
+        </div>
+    </div>
+
+    <div id="gdev-overlay">
+        <div class="gdev-modal">
+            <div class="close-gdev" onclick="toggleGDev(true)"><i class="fas fa-times"></i></div>
+            <iframe id="gdev-frame" src=""></iframe>
+            <div class="footer-controls p-4 bg-[#1a1c1e] border-t border-white/5 flex justify-between items-center px-8">
+                <span class="text-[9px] text-gray-600 font-bold uppercase tracking-[2px]">G-Dev Protocol v4.0</span>
+                <div class="flex items-center gap-3">
+                    <button id="copy-btn" class="text-[11px] text-[#8ab4f8] font-bold px-4 py-2 hover:text-white transition" onclick="copyProfileLink()">
+                        Copy Profile
+                    </button>
+                    <a href="https://wa.me/233549757544" target="_blank" class="hire-btn">
+                        <i class="fas fa-briefcase"></i> Contact Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const overlay = document.getElementById('gdev-overlay');
+        const frame = document.getElementById('gdev-frame');
+        const profileUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdipVP7tU1hjTjECfWUdnhzWN-PROdQp19ng25EUDJk5-8JzA/viewform?usp=header";
+        
+        let autoPopTimer = null;
+        let isUserInteracted = false;
+
+        function toggleGDev(isManual = false) {
+            // If user clicks, stop all automatic pop-ups/closings
+            if (isManual) {
+                isUserInteracted = true;
+                clearTimeout(autoPopTimer);
+            }
+
+            if (overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                setTimeout(() => { 
+                    overlay.style.display = 'none'; 
+                    frame.src = ""; 
+                }, 400);
+                document.body.style.overflow = 'auto';
+            } else {
+                overlay.style.display = 'flex';
+                setTimeout(() => overlay.classList.add('active'), 10);
+                frame.src = profileUrl;
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // --- AUTOMATIC ENGINE ---
+        window.addEventListener('load', () => {
+            // 1. Auto Open after 6 seconds
+            autoPopTimer = setTimeout(() => {
+                if (!isUserInteracted) {
+                    toggleGDev();
+                    
+                    // 2. Auto Close after 6 more seconds
+                    autoPopTimer = setTimeout(() => {
+                        if (!isUserInteracted) toggleGDev();
+                    }, 6000);
+                }
+            }, 6000);
+        });
+
+        async function copyProfileLink() {
+            await navigator.clipboard.writeText(profileUrl);
+            const btn = document.getElementById('copy-btn');
+            btn.innerText = "Copied!";
+            setTimeout(() => { btn.innerText = "Copy Profile"; }, 2000);
+        }
+
+        overlay.onclick = (e) => { if (e.target === overlay) toggleGDev(true); };
+    </script>
+</body>
+</html>
+
+
+
+
+
 <div id="smart-float-container" class="float-wrapper">
     <div id="float-nudge" class="float-nudge">
         <p>Claim your <strong>.wordpress.com</strong> site!</p>
