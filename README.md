@@ -1,3 +1,8 @@
+<!-- Elfsight Subscription Form | Form  -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-1631adfd-15d2-4721-88d2-60fe6c7b57fb" data-elfsight-app-lazy></div>
+
+
 
 <html lang="en">
 <head>
